@@ -84,6 +84,7 @@ The regression targets are derived from fruit-specific decay curves. The model l
 Recent test set performance demonstrates the system's robustness:
 
 - **Classification Accuracy**: 92.6%
+- **Identity Model Accuracy**: 93.6%
 - **Regression Mean Absolute Error (MAE)**: 0.74 days
 - **Regression RMSE**: 1.07 days
 
@@ -134,4 +135,5 @@ The script will automatically execute the identity model, followed by the classi
 Alex (alexcj10)
 
 This system was developed as a case study in applying Deep Learning to solve food waste and quality control challenges in the agricultural sector.
+
 
