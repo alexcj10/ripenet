@@ -47,7 +47,8 @@ The system is trained on a custom agricultural dataset and achieves high precisi
 ├── src_identity/           # Fruit species identification
 │   ├── dataset.py
 │   ├── model.py
-│   └── train.py
+│   ├── train.py
+│   └── evaluate.py
 │
 ├── src_regression/         # Shelf-life trajectory prediction
 │   ├── dataset.py
@@ -133,3 +134,4 @@ The script will automatically execute the identity model, followed by the classi
 Alex (alexcj10)
 
 This system was developed as a case study in applying Deep Learning to solve food waste and quality control challenges in the agricultural sector.
+
