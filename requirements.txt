@@ -1,7 +1,8 @@
-torch
-torchvision
-pandas
-scikit-learn
+fastapi
+uvicorn[standard]
+python-multipart
+torch --index-url https://download.pytorch.org/whl/cpu
+torchvision --index-url https://download.pytorch.org/whl/cpu
 Pillow
 numpy
-matplotlib
+scikit-learn
