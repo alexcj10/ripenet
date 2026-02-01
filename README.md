@@ -1,4 +1,4 @@
-# RipeNet
+<h1 align="center">RipeNet</h1>
 
 RipeNet is an end-to-end computer vision suite for fruit species identification, ripeness classification, and shelf-life estimation using deep learning. The system utilizes multiple specialized models to provides a comprehensive analysis of fruit quality and remaining viability.
 
@@ -47,7 +47,8 @@ The system is trained on a custom agricultural dataset and achieves high precisi
 ├── src_identity/           # Fruit species identification
 │   ├── dataset.py
 │   ├── model.py
-│   └── train.py
+│   ├── train.py
+│   └── evaluate.py
 │
 ├── src_regression/         # Shelf-life trajectory prediction
 │   ├── dataset.py
@@ -83,6 +84,7 @@ The regression targets are derived from fruit-specific decay curves. The model l
 Recent test set performance demonstrates the system's robustness:
 
 - **Classification Accuracy**: 92.6%
+- **Identity Model Accuracy**: 93.6%
 - **Regression Mean Absolute Error (MAE)**: 0.74 days
 - **Regression RMSE**: 1.07 days
 
@@ -119,12 +121,12 @@ The script will automatically execute the identity model, followed by the classi
 
 ## Dependencies
 
-- PyTorch
-- Torchvision
-- Pandas
-- Scikit-learn
-- Pillow (PIL)
-- NumPy
+- [x] PyTorch
+- [x] Torchvision
+- [x] Pandas
+- [x] Scikit-learn
+- [x] Pillow (PIL)
+- [x] NumPy 
 
 ---
 
@@ -133,3 +135,8 @@ The script will automatically execute the identity model, followed by the classi
 Alex (alexcj10)
 
 This system was developed as a case study in applying Deep Learning to solve food waste and quality control challenges in the agricultural sector.
+
+
+
+
+
