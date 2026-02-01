@@ -21,26 +21,33 @@ The core innovation of RipeNet is its transition from discrete classification to
 You can use RipeNet's AI in two ways, depending on your setup.
 
 ### Option 1: Premium CLI (Best Experience)
-**Requires**: [Project Source Code](https://github.com/alexcj10/ripenet) + Python 3.7+
+**Requires**: Python 3.7+
 
-This is the official tool for power users. It provides beautiful terminal results, system info, and batch folder scanning.
+This is the official terminal tool for power users. You can install it in two ways:
 
-1. **Download & Setup**:
-   - Clone or download the repository to your computer.
-   - Open your terminal **inside the project folder**.
-   - Run the installation command:
-     ```bash
-     pip install .
-     ```
+#### A. Fast Install (No download needed)
+Ideal if you just want to use the tool immediately.
+```bash
+pip install git+https://github.com/alexcj10/ripenet.git
+```
 
-2. **Available Commands**:
-   Once installed, the `ripenet` command works globally (from any terminal window).
-   - **Scan a single image**: `ripenet scan "path/to/fruit.jpg"`
-   - **Batch scan a folder**: `ripenet batch "path/to/folder"`
-   - **Check System & API Status**: `ripenet info`
+#### B. Manual Install (For Developers)
+Ideal if you have cloned the code and want to make changes.
+1. Navigate to the project folder.
+2. Run: `pip install .`
 
-> [!NOTE]
-> **Important**: For the `ripenet` command to work, your Python environment must be active, and the project files must stay in their original location on your hard drive.
+---
+
+### **Available Commands**
+Once installed, the `ripenet` command works globally:
+- **Scan a single image**: `ripenet scan "path/to/fruit.jpg"`
+- **Batch scan a folder**: `ripenet batch "path/to/folder"`
+- **Check System & API Status**: `ripenet info`
+
+> [!IMPORTANT]
+> For the `ripenet` command to work, your Python environment must be active.
+
+---
 
 ### Option 2: Instant API (Zero Install)
 **Requires**: Nothing but a terminal!
