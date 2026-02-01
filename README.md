@@ -12,6 +12,49 @@ The core innovation of RipeNet is its transition from discrete classification to
 
 - **Web Application**: [ripenet.vercel.app](https://ripenet.vercel.app)
 - **Backend API**: [huggingface.co/spaces/alexcj10/ripenet-backend](https://huggingface.co/spaces/alexcj10/ripenet-backend)
+- **CLI Tool**: Included in this repository! (See below for setup)
+
+---
+
+---
+
+## 🌎 How to Use RipeNet
+
+You can use RipeNet's AI in two ways, depending on your setup.
+
+### Option 1: Premium CLI (Best Experience)
+Ideal if you have **Python** installed. Provides beautiful terminal output, batch scanning, and the official `ripenet` command.
+
+1. **Install**:
+   ```bash
+   pip install .
+   ```
+2. **Analyze**:
+   ```bash
+   ripenet scan "path/to/fruit.jpg"
+   ```
+
+### Option 2: Instant API (Zero Install)
+Works on **any laptop** (Mac, Windows, Linux) without installing Python or anything else.
+
+1. **Analyze immediately**:
+   ```bash
+   curl -F "file=@fruit.jpg" https://alexcj10-ripenet-backend.hf.space/predict
+   ```
+
+> [!TIP]
+> **Windows Users**: If the `curl` command acts unexpectedly in PowerShell, try using `curl.exe` instead.
+
+---
+
+## 💻 Compatibility Matrix
+
+| Environment | **Premium CLI** | **Instant API** |
+| :--- | :---: | :---: |
+| **Windows** | ✅ | ✅ (`curl.exe`) |
+| **macOS** | ✅ | ✅ |
+| **Linux** | ✅ | ✅ |
+| **Dependencies** | Python 3.7+ | None |
 
 ---
 
