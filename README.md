@@ -16,8 +16,6 @@ The core innovation of RipeNet is its transition from discrete classification to
 
 ---
 
----
-
 ## 🌎 How to Use RipeNet
 
 You can use RipeNet's AI in two ways, depending on your setup.
@@ -44,6 +42,13 @@ Works on **any laptop** (Mac, Windows, Linux) without installing Python or anyth
 
 > [!TIP]
 > **Windows Users**: If the `curl` command acts unexpectedly in PowerShell, try using `curl.exe` instead.
+> [!TIP]
+> **Troubleshooting `curl: (26)`**: If you see this error, it's often due to complex characters (commas, colons, etc.) in the filename. **Rename your file** to something simple like `fruit.png` and try again.
+>
+> **Paths with Spaces**: If your folder names have spaces (e.g., `unripe orange`), always wrap the path in double quotes: 
+> `"C:\My Fruits\fresh apple.jpg"`
+>
+> **Local Files Only**: The CLI and API expect a file saved on your computer. If you have an online image, download it first before scanning!
 
 ---
 
