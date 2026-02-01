@@ -16,9 +16,9 @@ The core innovation of RipeNet is its transition from discrete classification to
 
 ---
 
-## 🌎 How to Use RipeNet
+## 💻 Command Line & API Access
 
-You can use RipeNet's AI in two ways, depending on your setup.
+For **Developers** and **Power Users** who prefer the terminal, RipeNet offers two advanced access methods:
 
 ### Option 1: Premium CLI (Best Experience)
 **Requires**: Python 3.7+
