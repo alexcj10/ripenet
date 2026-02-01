@@ -1,6 +1,4 @@
-<div align="center">
-  <h1><img src="assets/apple.svg" width="38" style="vertical-align: middle;"> RipeNet</h1>
-</div>
+# <p align="center"><img src="assets/apple.svg" width="80" height="80" alt="RipeNet Logo" /><br/>RipeNet</p>
 
 RipeNet is an end-to-end computer vision suite for fruit species identification, ripeness classification, and shelf-life estimation using deep learning. The system utilizes multiple specialized models to provide a comprehensive analysis of fruit quality and remaining viability.
 
@@ -210,6 +208,7 @@ The script will automatically execute the identity model, followed by the classi
 Alex (alexcj10)
 
 This system was developed as a case study in applying Deep Learning to solve food waste and quality control challenges in the agricultural sector.
+
 
 
 
