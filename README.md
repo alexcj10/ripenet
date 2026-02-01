@@ -9,7 +9,7 @@ The core innovation of RipeNet is its transition from discrete classification to
 
 ---
 
-## 🚀 Live Demo
+## Live Demo
 
 - **Web Application**: [ripenet.vercel.app](https://ripenet.vercel.app)
 - **Backend API**: [huggingface.co/spaces/alexcj10/ripenet-backend](https://huggingface.co/spaces/alexcj10/ripenet-backend)
@@ -17,7 +17,7 @@ The core innovation of RipeNet is its transition from discrete classification to
 
 ---
 
-## 💻 Command Line & API Access
+## Command Line & API Access
 
 For **Developers** and **Power Users** who prefer the terminal, RipeNet offers two advanced access methods:
 
@@ -39,7 +39,7 @@ Best if you have already downloaded/cloned the code manually.
 
 ---
 
-### **Done!** ✨
+### **Done!** 
 After running **either** A or B, the `ripenet` command is now live on your machine! You can now run these from any terminal window:
 - **Scan a single image**: `ripenet scan "path/to/fruit.jpg"`
 - **Batch scan a folder**: `ripenet batch "path/to/folder"`
@@ -77,7 +77,7 @@ Works on **any laptop** (Mac, Windows, Linux) immediately.
 
 ---
 
-## 💻 Compatibility Matrix
+## Compatibility Matrix
 
 | Environment | **Premium CLI** | **Instant API** |
 | :--- | :---: | :---: |
@@ -211,6 +211,7 @@ The script will automatically execute the identity model, followed by the classi
 Alex (alexcj10)
 
 This system was developed as a case study in applying Deep Learning to solve food waste and quality control challenges in the agricultural sector.
+
 
 
 
