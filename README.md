@@ -1,7 +1,4 @@
-<h1 align="center">
-  <img src="assets/apple.svg" width="38" style="vertical-align: middle;"> RipeNet
-</h1>
-
+<h1 align="center"><img src="assets/apple.svg" width="38" style="vertical-align: middle;"> RipeNet</h1>
 
 RipeNet is an end-to-end computer vision suite for fruit species identification, ripeness classification, and shelf-life estimation using deep learning. The system utilizes multiple specialized models to provide a comprehensive analysis of fruit quality and remaining viability.
 
