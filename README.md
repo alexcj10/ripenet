@@ -21,27 +21,39 @@ The core innovation of RipeNet is its transition from discrete classification to
 You can use RipeNet's AI in two ways, depending on your setup.
 
 ### Option 1: Premium CLI (Best Experience)
-Ideal if you have **Python** installed. Provides beautiful terminal output, batch scanning, and the official `ripenet` command.
+**Requires**: [Project Source Code](https://github.com/alexcj10/ripenet) + Python 3.7+
 
-1. **Install**:
-   ```bash
-   pip install .
-   ```
-2. **Analyze**:
-   ```bash
-   ripenet scan "path/to/fruit.jpg"
-   ```
+This is the official tool for power users. It provides beautiful terminal results, system info, and batch folder scanning.
+
+1. **Download & Setup**:
+   - Clone or download the repository to your computer.
+   - Open your terminal **inside the project folder**.
+   - Run the installation command:
+     ```bash
+     pip install .
+     ```
+
+2. **Available Commands**:
+   Once installed, the `ripenet` command works globally (from any terminal window).
+   - **Scan a single image**: `ripenet scan "path/to/fruit.jpg"`
+   - **Batch scan a folder**: `ripenet batch "path/to/folder"`
+   - **Check System & API Status**: `ripenet info`
+
+> [!NOTE]
+> **Important**: For the `ripenet` command to work, your Python environment must be active, and the project files must stay in their original location on your hard drive.
 
 ### Option 2: Instant API (Zero Install)
-Works on **any laptop** (Mac, Windows, Linux) without installing Python or anything else.
+**Requires**: Nothing but a terminal!
+Works on **any laptop** (Mac, Windows, Linux) immediately.
 
-1. **Analyze immediately**:
+1. **Run the One-Liner**:
    ```bash
    curl -F "file=@fruit.jpg" https://alexcj10-ripenet-backend.hf.space/predict
    ```
 
 > [!TIP]
-> **Windows Users**: If the `curl` command acts unexpectedly in PowerShell, try using `curl.exe` instead.
+> **Windows Users**: If the `curl` command acts unexpectedly in PowerShell, try using **`curl.exe`** instead.
+>
 > **Troubleshooting `curl: (26)`**: If you see this error, it's often due to complex characters (commas, colons, etc.) in the filename. **Rename your file** to something simple like `fruit.png` and try again.
 >
 > **Paths with Spaces**: If your folder names have spaces (e.g., `unripe orange`), always wrap the path in double quotes: 

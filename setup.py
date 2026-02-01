@@ -6,14 +6,14 @@ setup(
     description="Advanced AI Fruit Quality Analysis Suite",
     author="ALEX",
     packages=find_packages(),
-    py_modules=["ripenet-cli"],
+    py_modules=["ripenet_cli"],
     install_requires=[
         "requests",
         "rich",
     ],
     entry_points={
         "console_scripts": [
-            "ripenet=ripenet-cli:main",
+            "ripenet=ripenet_cli:main",
         ],
     },
     python_requires=">=3.7",
