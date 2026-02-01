@@ -46,6 +46,12 @@ After running **either** A or B, the `ripenet` command is now live on your machi
 
 > [!IMPORTANT]
 > You only need to install once. Once installed, you can use `ripenet` from any folder forever (no need to be inside the project folder anymore).
+>
+> **Windows/PowerShell User?**
+> If you see `ripenet: The term is not recognized`, run this command to fix your path:
+> ```powershell
+> $env:PATH += ";C:\Users\$env:USERNAME\AppData\Roaming\Python\Python313\Scripts"
+> ```
 
 ---
 
