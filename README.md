@@ -81,9 +81,9 @@ Works on **any laptop** (Mac, Windows, Linux) immediately.
 
 | Environment | **Premium CLI** | **Instant API** |
 | :--- | :---: | :---: |
-| **Windows** | ✅ | ✅ (`curl.exe`) |
-| **macOS** | ✅ | ✅ |
-| **Linux** | ✅ | ✅ |
+| **Windows** | Supported | Supported (`curl.exe`) |
+| **macOS** | Supported | Supported |
+| **Linux** | Supported | Supported |
 | **Dependencies** | Python 3.7+ | None |
 
 ---
@@ -211,6 +211,7 @@ The script will automatically execute the identity model, followed by the classi
 Alex (alexcj10)
 
 This system was developed as a case study in applying Deep Learning to solve food waste and quality control challenges in the agricultural sector.
+
 
 
 
