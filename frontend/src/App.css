@@ -25,9 +25,11 @@
 }
 
 .logo-text {
-  font-size: 1.25rem;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.35rem;
   font-weight: 700;
   color: var(--text-dark);
+  letter-spacing: -0.02em;
 }
 
 .badge {
@@ -64,11 +66,13 @@
 }
 
 .hero h1 {
+  font-family: 'Space Grotesk', sans-serif;
   font-size: 2rem;
-  font-weight: 800;
+  font-weight: 700;
   color: var(--text-dark);
   margin-bottom: 0.75rem;
   line-height: 1.2;
+  letter-spacing: -0.02em;
 }
 
 .highlight {
