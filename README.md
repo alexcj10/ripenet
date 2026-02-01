@@ -1,8 +1,15 @@
 <h1 align="center">RipeNet</h1>
 
-RipeNet is an end-to-end computer vision suite for fruit species identification, ripeness classification, and shelf-life estimation using deep learning. The system utilizes multiple specialized models to provides a comprehensive analysis of fruit quality and remaining viability.
+RipeNet is an end-to-end computer vision suite for fruit species identification, ripeness classification, and shelf-life estimation using deep learning. The system utilizes multiple specialized models to provide a comprehensive analysis of fruit quality and remaining viability.
 
 The core innovation of RipeNet is its transition from discrete classification to continuous regression, modeling shelf-life as a time-based value in days.
+
+---
+
+## 🚀 Live Demo
+
+- **Web Application**: [ripenet.vercel.app](https://ripenet.vercel.app)
+- **Backend API**: [huggingface.co/spaces/alexcj10/ripenet-backend](https://huggingface.co/spaces/alexcj10/ripenet-backend)
 
 ---
 
@@ -12,9 +19,11 @@ RipeNet is structured as a triple-expert system:
 
 1.  **Identity Model**: An EfficientNet-B0 classifier that identifies the fruit species (Apple, Banana, Orange, Papaya) to select appropriate biological decay parameters.
 2.  **Classification Model**: A secondary check for discrete ripeness stages (Unripe, Fresh/Ripe, Rotten) to validate visual status.
-3.  **Regression Model**: The primary engine that predicts the exact remaining shelf-life in days by analyzing surface features, color distribution, and texture degradation.
+3.  **Regression Model**: The primary engine that predicts the estimated remaining shelf-life in days by analyzing surface features, color distribution, and texture degradation.
 
-The system is trained on a custom agricultural dataset and achieves high precision in the transition between ripeness stages.
+The system is deployed using a decoupled architecture:
+- **Frontend**: React (Vite) hosted on Vercel with high-performance Framer Motion animations.
+- **Backend**: FastAPI (Python) hosted on Hugging Face Spaces (Docker) leveraging 16GB RAM for rapid model inference.
 
 ---
 
@@ -32,34 +41,26 @@ The system is trained on a custom agricultural dataset and achieves high precisi
 
 ```
 .
+├── api/                    # Backend API (Hugging Face / Docker)
+│   ├── main.py             # FastAPI Application logic
+│   ├── Dockerfile          # Container configuration
+│   └── requirements.txt    # CPU-optimized dependencies
+│
+├── frontend/               # React Web Application (Vercel)
+│   ├── src/                # UI components and API logic
+│   ├── App.jsx             # Main application flow
+│   └── App.css             # Premium styling and glassmorphism
+│
 ├── saved_models/           # Pre-trained model weights (.pth)
 │   ├── best_model.pth             # Classification model
 │   ├── best_identity_model.pth    # Species identification model
 │   └── best_regression_model.pth  # Shelf-life regression model
 │
-├── src/                    # Main inference and classification logic
-│   ├── dataset.py          # Data loading for classification
-│   ├── model.py            # Classification architecture
-│   ├── train.py            # Training script for classification
-│   ├── evaluate.py         # Metrics reporting
-│   └── predict.py          # Unified inference script (FruitGPT engine)
-│
-├── src_identity/           # Fruit species identification
-│   ├── dataset.py
-│   ├── model.py
-│   ├── train.py
-│   └── evaluate.py
-│
-├── src_regression/         # Shelf-life trajectory prediction
-│   ├── dataset.py
-│   ├── model.py
-│   ├── train.py
-│   └── evaluate.py
-│
-├── requirements.txt        # Environment dependencies
-├── generate_labels.py      # Automated labeling from directory structure
-├── split_data.py           # Dataset partitioning (Train/Val/Test)
-└── update_days_remaining.py # Biological decay modeling logic
+├── src/                    # Training and logic for Classification
+├── src_identity/           # Training and logic for Identity
+├── src_regression/         # Training and logic for Regression
+├── .gitignore              # Project-wide git ignore rules
+└── requirements.txt        # Local environment dependencies
 ```
 
 ---
