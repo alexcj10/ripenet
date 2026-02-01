@@ -121,12 +121,12 @@ The script will automatically execute the identity model, followed by the classi
 
 ## Dependencies
 
-✔ PyTorch  
-✔ Torchvision  
-✔ Pandas  
-✔ Scikit-learn  
-✔ Pillow (PIL)  
-✔ NumPy  
+- [x] PyTorch
+- [x] Torchvision
+- [x] Pandas
+- [x] Scikit-learn
+- [x] Pillow (PIL)
+- [x] NumPy 
 
 ---
 
@@ -135,6 +135,7 @@ The script will automatically execute the identity model, followed by the classi
 Alex (alexcj10)
 
 This system was developed as a case study in applying Deep Learning to solve food waste and quality control challenges in the agricultural sector.
+
 
 
 
