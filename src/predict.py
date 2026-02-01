@@ -16,9 +16,10 @@ from src_identity.model import FruitIdentityModel # Identity (Species)
 
 # -------- CONFIG --------
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
-CLASS_MODEL_PATH = "../saved_models/best_model.pth"
-REGRESS_MODEL_PATH = "../saved_models/best_regression_model.pth"
-IDENTITY_MODEL_PATH = "../saved_models/best_identity_model.pth"
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+CLASS_MODEL_PATH = os.path.join(BASE_DIR, "saved_models", "best_model.pth")
+REGRESS_MODEL_PATH = os.path.join(BASE_DIR, "saved_models", "best_regression_model.pth")
+IDENTITY_MODEL_PATH = os.path.join(BASE_DIR, "saved_models", "best_identity_model.pth")
 
 # Map stage indices to labels
 STAGE_LABELS = {0: "unripe", 1: "fresh", 2: "rotten"}

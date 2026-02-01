@@ -6,3 +6,4 @@ torchvision --index-url https://download.pytorch.org/whl/cpu
 Pillow
 numpy
 scikit-learn
+rich==13.7.0
