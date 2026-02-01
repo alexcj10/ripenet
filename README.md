@@ -23,29 +23,29 @@ You can use RipeNet's AI in two ways, depending on your setup.
 ### Option 1: Premium CLI (Best Experience)
 **Requires**: Python 3.7+
 
-This is the official terminal tool for power users. You can install it in two ways:
+This is the official terminal tool for power users. **Choose ONE of the two methods below** to install the `ripenet` command:
 
-#### A. Fast Install (No download needed)
-Ideal if you just want to use the tool immediately.
+#### Method A: Fast Install (Requires Git)
+Best for users who want to install directly without manual downloads.
 ```bash
 pip install git+https://github.com/alexcj10/ripenet.git
 ```
 
-#### B. Manual Install (For Developers)
-Ideal if you have cloned the code and want to make changes.
-1. Navigate to the project folder.
+#### Method B: Manual Install (For Developers)
+Best if you have already downloaded/cloned the code manually.
+1. Open your terminal **inside the project folder**.
 2. Run: `pip install .`
 
 ---
 
-### **Available Commands**
-Once installed, the `ripenet` command works globally:
+### **Done!** ✨
+After running **either** A or B, the `ripenet` command is now live on your machine! You can now run these from any terminal window:
 - **Scan a single image**: `ripenet scan "path/to/fruit.jpg"`
 - **Batch scan a folder**: `ripenet batch "path/to/folder"`
 - **Check System & API Status**: `ripenet info`
 
 > [!IMPORTANT]
-> For the `ripenet` command to work, your Python environment must be active.
+> You only need to install once. Once installed, you can use `ripenet` from any folder forever (no need to be inside the project folder anymore).
 
 ---
 
