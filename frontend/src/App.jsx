@@ -70,7 +70,7 @@ function App() {
       {/* Header */}
       <header className="header">
         <div className="logo">
-          <span className="logo-icon">🍎</span>
+          <img src="/apple.svg" alt="RipeNet" className="logo-icon" />
           <span className="logo-text">RipeNet</span>
         </div>
         <div className="header-right">
