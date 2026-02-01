@@ -1,7 +1,20 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <circle cx="50" cy="55" r="40" fill="#ef4444"/>
-  <ellipse cx="50" cy="55" rx="40" ry="38" fill="#dc2626"/>
-  <ellipse cx="35" cy="45" rx="12" ry="8" fill="rgba(255,255,255,0.2)"/>
-  <path d="M50 15 Q55 5, 60 15 Q55 18, 50 15" fill="#16a34a"/>
-  <path d="M50 15 L50 25" stroke="#78350f" stroke-width="4" stroke-linecap="round"/>
+  <defs>
+    <linearGradient id="appleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#22c55e"/>
+      <stop offset="100%" style="stop-color:#16a34a"/>
+    </linearGradient>
+    <linearGradient id="leafGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4ade80"/>
+      <stop offset="100%" style="stop-color:#22c55e"/>
+    </linearGradient>
+  </defs>
+  <!-- Apple body -->
+  <path d="M50 20 C20 20 10 50 10 65 C10 90 30 95 50 95 C70 95 90 90 90 65 C90 50 80 20 50 20" fill="url(#appleGrad)"/>
+  <!-- Highlight -->
+  <ellipse cx="35" cy="50" rx="12" ry="18" fill="rgba(255,255,255,0.15)"/>
+  <!-- Stem -->
+  <path d="M50 20 Q52 10 50 5" stroke="#78350f" stroke-width="5" stroke-linecap="round" fill="none"/>
+  <!-- Leaf -->
+  <path d="M52 12 Q70 5 75 15 Q65 20 52 12" fill="url(#leafGrad)"/>
 </svg>
