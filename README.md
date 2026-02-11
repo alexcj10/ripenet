@@ -132,14 +132,23 @@ The system is deployed using a decoupled architecture:
 │   ├── App.jsx             # Main application flow
 │   └── App.css             # Premium styling and glassmorphism
 │
+├── reports/                # Benchmarking and evaluation reports
+│   ├── metrics/            # CSV summaries and validation data
+│   ├── plots/              # Visualization of model performance
+│   └── evaluate_models.py  # Professional benchmarking script
+│
 ├── saved_models/           # Pre-trained model weights (.pth)
-│   ├── best_model.pth             # Classification model
-│   ├── best_identity_model.pth    # Species identification model
-│   └── best_regression_model.pth  # Shelf-life regression model
+│   ├── best_model.pth             # Classification model (V1)
+│   ├── best_identity_model.pth    # Species identification model (V1)
+│   ├── best_regression_model.pth  # Shelf-life regression model (V1)
+│   └── ripenet_v2_mtl.pth         # Multi-Task Learning model (V2 Production)
 │
 ├── src/                    # Training and logic for Classification
 ├── src_identity/           # Training and logic for Identity
 ├── src_regression/         # Training and logic for Regression
+├── ripenet_cli.py          # Entry point for the Premium CLI
+├── prepare_ripenet_v2.py   # Dataset preparation for V2
+├── verify_v2_pipeline.py   # Validation script for MTL architecture
 ├── .gitignore              # Project-wide git ignore rules
 └── requirements.txt        # Local environment dependencies
 ```
