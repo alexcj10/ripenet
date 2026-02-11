@@ -56,6 +56,8 @@ After running **either** A or B, the `ripenet` command is now live on your machi
 > $env:PATH += ";C:\Users\$env:USERNAME\AppData\Roaming\Python\Python313\Scripts"
 > ```
 
+<img width="845" height="406" alt="image" src="https://github.com/user-attachments/assets/885a9f10-3090-4b66-a36f-9afa8090e522" />
+
 ---
 
 ### Option 2: Instant API (Zero Install)
@@ -277,6 +279,7 @@ The script will automatically execute the identity model, followed by the classi
 Alex (alexcj10)
 
 This system was developed as a case study in applying Deep Learning to solve food waste and quality control challenges in the agricultural sector.
+
 
 
 
