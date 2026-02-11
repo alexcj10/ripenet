@@ -108,172 +108,236 @@ v2_model.eval()
 print("Models loaded successfully.\n")
 
 # ==========================
-# FINAL RESEARCH-LEVEL BENCHMARK PLOTS (NO OVERLAP)
+# EVALUATION LOOP
 # ==========================
 
-import seaborn as sns
-import matplotlib.pyplot as plt
+results = []
+
+for _, row in df.iterrows():
+
+    img_path = os.path.join(IMAGE_ROOT, row["image_path"])
+
+    img = Image.open(img_path).convert("RGB")
+    x = transform(img).unsqueeze(0).to(DEVICE)
+
+    # -------- V1 --------
+    t0 = time.time()
+
+    fruit_logits = v1_fruit(x)
+    stage_logits = v1_stage(x)
+    days_pred = v1_time(x)
+
+    v1_time_taken = time.time() - t0
+
+    v1_fruit_pred = V1_FRUIT_MAP[fruit_logits.argmax(dim=1).item()]
+    v1_stage_pred = STAGE_MAP[stage_logits.argmax(dim=1).item()]
+    v1_days_pred  = normalize_days(days_pred.item())
+
+    # -------- V2 --------
+    t0 = time.time()
+
+    v2_out = v2_model(x)
+    fruit_logits_v2 = v2_out["fruit"]
+    stage_logits_v2 = v2_out["ripeness"]
+    days_pred_v2 = v2_out["days"]
+
+    v2_time_taken = time.time() - t0
+
+    v2_fruit_pred = V2_FRUIT_MAP[fruit_logits_v2.argmax(dim=1).item()]
+    v2_stage_pred = STAGE_MAP[stage_logits_v2.argmax(dim=1).item()]
+    v2_days_pred  = normalize_days(days_pred_v2.squeeze().item())
+
+    results.append({
+        "fruit_gt": row["fruit"],
+        "stage_gt": row["stage_name"],
+        "days_gt": row["days"],
+        "v1_fruit": v1_fruit_pred,
+        "v1_stage": v1_stage_pred,
+        "v1_days": v1_days_pred,
+        "v2_fruit": v2_fruit_pred,
+        "v2_stage": v2_stage_pred,
+        "v2_days": v2_days_pred,
+        "v1_time": v1_time_taken,
+        "v2_time": v2_time_taken
+    })
+
+print("Inference completed.\n")
+
+res = pd.DataFrame(results)
+
+# ==========================
+# METRICS
+# ==========================
+
+metrics = {
+    "V1 Fruit Accuracy": accuracy_score(res["fruit_gt"], res["v1_fruit"]),
+    "V2 Fruit Accuracy": accuracy_score(res["fruit_gt"], res["v2_fruit"]),
+    "V1 Stage Accuracy": accuracy_score(res["stage_gt"], res["v1_stage"]),
+    "V2 Stage Accuracy": accuracy_score(res["stage_gt"], res["v2_stage"]),
+    "V1 MAE": mean_absolute_error(res["days_gt"], res["v1_days"]),
+    "V2 MAE": mean_absolute_error(res["days_gt"], res["v2_days"]),
+    "V1 RMSE": np.sqrt(mean_squared_error(res["days_gt"], res["v1_days"])),
+    "V2 RMSE": np.sqrt(mean_squared_error(res["days_gt"], res["v2_days"])),
+    "V1 Avg Time (ms)": res["v1_time"].mean() * 1000,
+    "V2 Avg Time (ms)": res["v2_time"].mean() * 1000
+}
+
+metrics_df = pd.DataFrame(metrics, index=[0])
+metrics_df.to_csv(os.path.join(METRIC_DIR, "summary.csv"), index=False)
+
+print(metrics_df)
+print("\n✅ Evaluation Complete")
+
+# ==========================
+# CLEAN RESEARCH-STYLE BENCHMARK PLOTS (MINIMAL)
+# ==========================
+
+print("\nGenerating clean research-style benchmark figures...")
+
 import matplotlib as mpl
-import pandas as pd
-import os
-import numpy as np
 
-print("\nGenerating final research-level benchmark plots...")
-
-# ---- STYLE CONFIG ----
-sns.set_theme(style="whitegrid", context="paper")
-
+# ---- Clean Academic Style ----
 mpl.rcParams.update({
+    "font.family": "sans-serif",
+    "font.size": 10,
+    "axes.titlesize": 13,
+    "axes.titleweight": "bold",
+    "axes.labelsize": 10,
+    "xtick.labelsize": 10,
+    "ytick.labelsize": 10,
     "figure.dpi": 300,
     "savefig.dpi": 300,
     "axes.spines.top": False,
     "axes.spines.right": False,
-    "axes.titleweight": "bold",
 })
 
-V1_COLOR = "#94A3B8"   # Slate
-V2_COLOR = "#6366F1"   # Indigo
-DELTA_COLOR = "#10B981"  # Emerald green
+# Default research-friendly colors
+V1_COLOR = "#4C72B0"   # Muted Blue
+V2_COLOR = "#DD8452"   # Muted Orange
 
-# ---- METRIC DEFINITIONS ----
-metric_info = [
-    ("Fruit Classification Accuracy",
-     metrics["V1 Fruit Accuracy"] * 100,
-     metrics["V2 Fruit Accuracy"] * 100,
-     True,
-     "Accuracy (%)"),
 
-    ("Ripeness Stage Accuracy",
-     metrics["V1 Stage Accuracy"] * 100,
-     metrics["V2 Stage Accuracy"] * 100,
-     True,
-     "Accuracy (%)"),
+def draw_bar(ax, title, v1, v2, ylabel):
 
-    ("Time Prediction Error (MAE)",
-     metrics["V1 MAE"],
-     metrics["V2 MAE"],
-     False,
-     "Days (Lower is Better)"),
+    is_accuracy = "Accuracy" in title
+    display_v1 = v1 * 100 if is_accuracy else v1
+    display_v2 = v2 * 100 if is_accuracy else v2
 
-    ("Inference Latency",
-     metrics["V1 Avg Time (ms)"],
-     metrics["V2 Avg Time (ms)"],
-     False,
-     "Latency (ms - Lower is Better)")
-]
-
-# ==========================
-# 2x2 GRID FIGURE
-# ==========================
-
-fig, axes = plt.subplots(2, 2, figsize=(12, 9))
-plt.subplots_adjust(hspace=0.5, wspace=0.3)
-
-for ax, (title, v1, v2, higher_is_better, ylabel) in zip(axes.flatten(), metric_info):
-
-    data = pd.DataFrame({
-        "Model": ["V1 (Baseline)", "V2 (RipeNet)"],
-        "Value": [v1, v2]
-    })
-
-    sns.barplot(
-        data=data,
-        x="Model",
-        y="Value",
-        palette=[V1_COLOR, V2_COLOR],
-        ax=ax
+    # Bars closer together
+    bars = ax.bar(
+        ["V1", "V2"],
+        [display_v1, display_v2],
+        color=[V1_COLOR, V2_COLOR],
+        width=0.7   # wider bars = less space between them
     )
 
     ax.set_title(title, pad=15)
     ax.set_ylabel(ylabel)
 
-    # Add value labels on bars
-    for container in ax.containers:
-        ax.bar_label(container, fmt="%.2f", padding=3, fontsize=9)
+    if is_accuracy:
+        ax.set_ylim(0, 100)
 
-    # Compute improvement
-    if higher_is_better:
-        improvement = ((v2 - v1) / v1) * 100
-        delta_text = f"+{improvement:.1f}% Improvement"
-    else:
-        improvement = ((v1 - v2) / v1) * 100
-        delta_text = f"-{improvement:.1f}% Faster/Reduced"
+    ax.yaxis.grid(True, linestyle="--", alpha=0.3)
 
-    # Place improvement text INSIDE plot safely
-    ax.text(
-        0.5,
-        0.90,
-        delta_text,
-        transform=ax.transAxes,
-        ha="center",
-        va="center",
-        fontsize=9,
-        color=DELTA_COLOR,
-        weight="bold",
-        bbox=dict(facecolor="white", edgecolor="none", alpha=0.9, pad=3)
-    )
+    # Value labels
+    for bar in bars:
+        height = bar.get_height()
+        label = f"{height:.2f}%" if is_accuracy else f"{height:.2f}"
+        ax.text(
+            bar.get_x() + bar.get_width()/2,
+            height + (2 if is_accuracy else height * 0.03),
+            label,
+            ha="center",
+            va="bottom",
+            fontsize=9,
+            weight="bold"
+        )
 
-fig.suptitle(
+
+# ==========================
+# 1️⃣ COMBINED GRID FIGURE
+# ==========================
+
+fig, axes = plt.subplots(2, 2, figsize=(12, 9))
+plt.subplots_adjust(hspace=0.5, wspace=0.25)
+
+grid_metrics = [
+    ("Fruit Classification Accuracy",
+     metrics["V1 Fruit Accuracy"],
+     metrics["V2 Fruit Accuracy"],
+     "Accuracy (%)"),
+
+    ("Ripeness Stage Accuracy",
+     metrics["V1 Stage Accuracy"],
+     metrics["V2 Stage Accuracy"],
+     "Accuracy (%)"),
+
+    ("Time Prediction Error (MAE)",
+     metrics["V1 MAE"],
+     metrics["V2 MAE"],
+     "Days (Lower is Better)"),
+
+    ("Inference Latency",
+     metrics["V1 Avg Time (ms)"],
+     metrics["V2 Avg Time (ms)"],
+     "Latency (ms - Lower is Better)")
+]
+
+for ax, args in zip(axes.flatten(), grid_metrics):
+    draw_bar(ax, *args)
+
+plt.suptitle(
     "RipeNet V1 vs V2: Multi-Task Learning Benchmark",
     fontsize=15,
-    weight="bold"
+    weight="bold",
+    y=0.97
 )
 
-plt.tight_layout(rect=[0, 0, 1, 0.96])
+plt.tight_layout(rect=[0, 0, 1, 0.95])
 plt.savefig(os.path.join(PLOT_DIR, "benchmark_comparison.png"))
 plt.close()
 
-print("✅ Clean benchmark grid saved.")
 
 # ==========================
-# INDIVIDUAL METRIC FIGURES
+# 2️⃣ INDIVIDUAL FIGURES
 # ==========================
 
-for title, v1, v2, higher_is_better, ylabel in metric_info:
+individual_plots = [
+    ("Fruit Classification Accuracy",
+     metrics["V1 Fruit Accuracy"],
+     metrics["V2 Fruit Accuracy"],
+     "Accuracy (%)",
+     "fruit_accuracy.png"),
 
-    plt.figure(figsize=(6,5))
+    ("Ripeness Stage Accuracy",
+     metrics["V1 Stage Accuracy"],
+     metrics["V2 Stage Accuracy"],
+     "Accuracy (%)",
+     "stage_accuracy.png"),
 
-    data = pd.DataFrame({
-        "Model": ["V1 (Baseline)", "V2 (RipeNet)"],
-        "Value": [v1, v2]
-    })
+    ("Time Prediction Error (MAE)",
+     metrics["V1 MAE"],
+     metrics["V2 MAE"],
+     "Days (Lower is Better)",
+     "mae_comparison.png"),
 
-    ax = sns.barplot(
-        data=data,
-        x="Model",
-        y="Value",
-        palette=[V1_COLOR, V2_COLOR]
-    )
+    ("Time Prediction Error (RMSE)",
+     metrics["V1 RMSE"],
+     metrics["V2 RMSE"],
+     "Days (Lower is Better)",
+     "rmse_comparison.png"),
 
-    plt.title(title, pad=15)
-    plt.ylabel(ylabel)
+    ("Inference Latency",
+     metrics["V1 Avg Time (ms)"],
+     metrics["V2 Avg Time (ms)"],
+     "Latency (ms)",
+     "inference_time.png")
+]
 
-    for container in ax.containers:
-        ax.bar_label(container, fmt="%.2f", padding=3, fontsize=9)
-
-    if higher_is_better:
-        improvement = ((v2 - v1) / v1) * 100
-        delta_text = f"+{improvement:.1f}% Improvement"
-    else:
-        improvement = ((v1 - v2) / v1) * 100
-        delta_text = f"-{improvement:.1f}% Faster/Reduced"
-
-    plt.text(
-        0.5,
-        0.88,
-        delta_text,
-        transform=ax.transAxes,
-        ha="center",
-        va="center",
-        fontsize=9,
-        color=DELTA_COLOR,
-        weight="bold",
-        bbox=dict(facecolor="white", edgecolor="none", alpha=0.9, pad=3)
-    )
-
-    filename = title.lower().replace(" ", "_").replace("(", "").replace(")", "") + ".png"
+for title, v1, v2, ylabel, filename in individual_plots:
+    fig, ax = plt.subplots(figsize=(6,5))
+    draw_bar(ax, title, v1, v2, ylabel)
     plt.tight_layout()
     plt.savefig(os.path.join(PLOT_DIR, filename))
     plt.close()
 
-print("✅ Individual benchmark figures saved.")
+print("✅ Clean benchmark figures generated successfully.")
