@@ -90,11 +90,11 @@ Works on **any laptop** (Mac, Windows, Linux) immediately.
 
 ## Technical Overview
 
-RipeNet is structured as a triple-expert system:
-
-1.  **Identity Model**: An EfficientNet-B0 classifier that identifies the fruit species (Apple, Banana, Orange, Papaya) to select appropriate biological decay parameters.
+1.  **Identity Model**: A deep learning classifier that identifies the fruit species (supported: Apple, Banana, Mango, Orange, Papaya, Pineapple) to select appropriate biological decay parameters.
 2.  **Classification Model**: A secondary check for discrete ripeness stages (Unripe, Fresh/Ripe, Rotten) to validate visual status.
-3.  **Regression Model**: The primary engine that predicts the estimated remaining shelf-life in days by analyzing surface features, color distribution, and texture degradation.
+3.  **Regression Model**: The primary engine that predicts estimated remaining shelf-life in days by analyzing surface features, color distribution, and texture degradation.
+
+Note: RipeNet V2 (Production) utilizes a Multi-Task Learning (MTL) architecture where a single EfficientNet-B0 backbone processes identity, classification, and regression simultaneously. This reduces inference latency by over 50% compared to the original sequential architecture.
 
 The system is deployed using a decoupled architecture:
 - **Frontend**: React (Vite) hosted on Vercel with high-performance Framer Motion animations.
@@ -142,7 +142,10 @@ The system is deployed using a decoupled architecture:
 
 ## Data Labeling Strategy
 
-The regression targets are derived from fruit-specific decay curves. The model learns to map visual degradation to a temporal scale.
+Regression targets are derived from fruit-specific decay curves. The systems use distinct labeling strategies to optimize for either discrete experts (Model 1) or multi-task correlation (Model 2).
+
+### Model 1 Configuration (Original Sequential)
+Labeling strategy focused on standard viability windows.
 
 | Fruit   | Unripe Stage (Days) | Fresh Stage (Days) | Rotten Stage (Days) |
 |---------|---------------------|--------------------|---------------------|
@@ -151,20 +154,62 @@ The regression targets are derived from fruit-specific decay curves. The model l
 | Orange  | 8.0                 | 4.0                | 2.0                 |
 | Papaya  | 6.0                 | 3.0                | 1.0                 |
 
-*Values represent average viability timeframes under standard conditions.*
+### Model 2 Configuration (MTL Production)
+Labeling strategy optimized for 6 fruit species with robust boundary modeling.
+
+| Fruit     | Unripe Stage (Days) | Fresh Stage (Days) | Rotten Stage (Days) |
+|-----------|---------------------|--------------------|---------------------|
+| Apple     | 10.0                | 5.0                | 0.0                 |
+| Banana    | 6.0                 | 3.0                | 0.0                 |
+| Mango     | 7.0                 | 3.0                | 0.0                 |
+| Orange    | 8.0                 | 5.0                | 0.0                 |
+| Papaya    | 5.0                 | 2.0                | 0.0                 |
+| Pineapple | 6.0                 | 3.0                | 0.0                 |
+
+Additional Refinements in Model 2:
+- **Spoilage Modeling**: For very spoiled or black fruit, targets are set to a random range between -1.0 and -3.0 to force the model to learn expiration depth beyond the zero-day threshold.
+- **Data Jittering**: A small variation (e.g., +/- 0.2) is added to global labels to enhance sensitivity and prevent the model from over-fitting to fixed integer values.
+
+---
+
+## Benchmarking and Validation
+
+To validate the production readiness of RipeNet V2, a professional benchmark was conducted against the original V1 baseline using a held-out test set.
+
+### Methodology
+Testing was performed on a dataset of 120 images, randomly collected at a rate of 10 images per class for the 4 primary common fruits (Apple, Banana, Orange, Papaya) across 3 ripeness stages. This ensures a balanced, unbiased comparison.
+
+### Performance Comparison
+The results demonstrate significant gains in both accuracy and computational efficiency for the V2 architecture.
+
+![Benchmark Comparison](assets/benchmark_comparison.png)
+
+| Metric | RipeNet V1 (Baseline) | RipeNet V2 (MTL) | Development ROI |
+| :--- | :--- | :--- | :--- |
+| **Fruit Identity Accuracy** | 69.17% | **77.50%** | +12.0% Improvement |
+| **Stage Accuracy** | 65.83% | **70.83%** | +7.6% Improvement |
+| **Error (MAE)** | 1.70 Days | **1.53 Days** | -10.3% Error Reduction |
+| **Avg Latency** | 83.02 ms | **35.50 ms** | **~2.3x Faster** |
+
+The V2 Multi-Task Backbone achieves faster inference by sharing feature extraction across all three task heads in a single forward pass.
 
 ---
 
 ## Evaluation Results
 
-Recent test set performance demonstrates the system's robustness:
+Performance metrics recorded during the final validation phases:
 
+### RipeNet V1 (Original Metrics)
 - **Classification Accuracy**: 92.6%
 - **Identity Model Accuracy**: 93.6%
 - **Regression Mean Absolute Error (MAE)**: 0.74 days
-- **Regression RMSE**: 1.07 days
 
-This signifies that the system predicts shelf-life within a margin of error of approximately 18 hours.
+### RipeNet V2 (Production MTL Metrics)
+- **Fruit Identification Accuracy**: 93.3%
+- **Ripeness Stage Accuracy**: 80.4%
+- **Regression Mean Absolute Error (MAE)**: 1.26 days
+
+Note: RipeNet V2 training was conducted over 15 epochs with an un-frozen EfficientNet backbone, allowing for higher fidelity feature representations tailored to the 6-fruit classification task.
 
 ---
 
