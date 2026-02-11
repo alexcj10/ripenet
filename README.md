@@ -19,6 +19,7 @@ The core innovation of RipeNet is its transition from discrete classification to
 
 ## Command Line & API Access
 <img width="669" height="436" alt="image" src="https://github.com/user-attachments/assets/9e91e189-6daf-40ad-ae28-f8b24cd5d0ea" />
+<br>
 
 For **Developers** and **Power Users** who prefer the terminal, RipeNet offers two advanced access methods:
 
@@ -276,6 +277,7 @@ The script will automatically execute the identity model, followed by the classi
 Alex (alexcj10)
 
 This system was developed as a case study in applying Deep Learning to solve food waste and quality control challenges in the agricultural sector.
+
 
 
 
