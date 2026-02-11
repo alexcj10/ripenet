@@ -39,7 +39,7 @@ def scan_image(image_path):
         TextColumn("[progress.description]{task.description}"),
         transient=True,
     ) as progress:
-        progress.add_task(description="[cyan]🛰️ Sending image to RipeNet Cloud AI...", total=None)
+        progress.add_task(description="[cyan]» Sending image to RipeNet Cloud AI...", total=None)
         
         try:
             with open(image_path, "rb") as f:
@@ -88,7 +88,7 @@ def batch_process(directory):
     table.add_column("Status", style="bold")
 
     with Progress() as progress:
-        task = progress.add_task("[green]🛰️ Batch Scanning (Cloud)...", total=len(files))
+        task = progress.add_task("[green]» Batch Scanning (Cloud)...", total=len(files))
         
         for file in files:
             result = scan_image(file)
@@ -103,7 +103,7 @@ def batch_process(directory):
 
 def main():
     import argparse
-    parser = argparse.ArgumentParser(description="🍇 RipeNet Global CLI")
+    parser = argparse.ArgumentParser(description="RipeNet Global CLI: Advanced AI Fruit Analysis")
     subparsers = parser.add_subparsers(dest="command", help="Available commands")
 
     # Scan command
@@ -127,17 +127,17 @@ def main():
         table.add_column("Value", style="green")
 
         table.add_row("API Endpoint", API_URL)
-        table.add_row("Mode", "🛰️ Cloud Inference")
+        table.add_row("Mode", "[cyan]»[/cyan] Cloud Inference")
         
         try:
             start = time.time()
-            # Simple ping check if possible, or just HEAD
             resp = requests.get(API_URL.replace("/predict", "/"), timeout=5)
             latency = f"{(time.time() - start)*1000:.0f}ms"
-            table.add_row("API Status", "✅ Online" if resp.status_code == 200 else "⚠️ Issues")
-            table.add_row("Latency", latency)
+            status_text = "[bold green]Online[/bold green]" if resp.status_code == 200 else "[bold yellow]Issues[/bold yellow]"
+            table.add_row("API Status", f"[green]•[/green] {status_text}")
+            table.add_row("Latency", f"[white]{latency}[/white]")
         except:
-            table.add_row("API Status", "❌ Offline")
+            table.add_row("API Status", "[bold red]• Offline[/bold red]")
 
         console.print(table)
         console.print(f"\n[dim]Timestamp: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}[/dim]")
