@@ -192,10 +192,23 @@ Additional Refinements in Model 2:
 To validate the production readiness of RipeNet V2, a professional benchmark was conducted against the original V1 baseline using a held-out test set.
 
 ### Methodology
-Testing was performed on a dataset of 120 images, randomly collected at a rate of 10 images per class for the 4 primary common fruits (Apple, Banana, Orange, Papaya) across 3 ripeness stages. This ensures a balanced, unbiased comparison.
+Testing was performed on an independent, held-out benchmark set of 120 images (10 images per class for the 4 primary fruits across 3 ripeness stages). 
 
-### Performance Comparison
-The results demonstrate significant gains in both accuracy and computational efficiency for the V2 architecture.
+**Data Volume & Training**:
+*   **RipeNet V1**: Trained on **6,200 images** (4,340 Training / 1,860 Validation & Test).
+*   **RipeNet V2 (MTL)**: Trained on a refined, high-quality dataset of **9,537 images** (7,628 Training / 1,909 Validation) — an ~86% increase in training data volume compared to V1.
+
+**Label Alignment Strategy**:
+To ensure a **100% fair and representative comparison**, the benchmarking process utilizes a **Label Alignment Layer**. While V1 and V2 models were trained using different labeling strategies (e.g., V2 incorporates negative values to model 'spoilage depth'), the evaluation script normalizes all predictions to a unified positive scale:
+**Benchmark Ground Truth**:
+To ensure reproducibility, the 120-image benchmark set (covering Apple, Banana, Orange, and Papaya) utilized the following interpretable ground truth labels:
+
+| Fruit   | Unripe (Label 0) | Ripe (Label 1) | Rotten (Label 2) |
+|---------|------------------|----------------|------------------|
+| Apple   | 10 days          | 5 days         | 2 days           |
+| Banana  | 6 days           | 3 days         | 1 day            |
+| Orange  | 8 days           | 4 days         | 2 days           |
+| Papaya  | 6 days           | 3 days         | 1 day            |
 
 ![Benchmark Comparison](assets/benchmark_comparison.png)
 
