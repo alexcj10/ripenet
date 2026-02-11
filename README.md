@@ -274,7 +274,7 @@ To analyze an image and generate a shelf-life report:
 python src/predict.py path/to/image.jpg
 ```
 
-The script will automatically execute the identity model, followed by the classification and regression models, to produce a unified result.
+The script utilizes the RipeNet V2 Multi-Task Learning (MTL) architecture to simultaneously identify species, classify ripeness, and predict shelf-life in a single forward pass.
 
 ---
 
