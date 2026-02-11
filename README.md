@@ -1,4 +1,4 @@
-g<p align="center">
+<p align="center">
   <img src="assets/apple.svg" alt="RipeNet Logo" width="80" height="80">
 </p>
 <h1 align="center">RipeNet</h1>
@@ -275,6 +275,7 @@ The script will automatically execute the identity model, followed by the classi
 Alex (alexcj10)
 
 This system was developed as a case study in applying Deep Learning to solve food waste and quality control challenges in the agricultural sector.
+
 
 
 
