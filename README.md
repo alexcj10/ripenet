@@ -194,14 +194,14 @@ To validate the production readiness of RipeNet V2, a professional benchmark was
 ### Methodology
 Testing was performed on an independent, held-out benchmark set of 120 images (10 images per class for the 4 primary fruits across 3 ripeness stages). 
 
-**Data Volume & Training**:
+#### Data Volume & Training
 *   **RipeNet V1**: Trained on **6,200 images** (4,340 Training / 1,860 Validation & Test).
 *   **RipeNet V2 (MTL)**: Trained on a refined, high-quality dataset of **9,537 images** (7,628 Training / 1,909 Validation) — an ~86% increase in training data volume compared to V1.
 
-**Label Alignment Strategy**:
+#### Label Alignment Strategy
 To ensure a **100% fair and representative comparison**, the benchmarking process utilizes a **Label Alignment Layer**. While V1 and V2 models were trained using different labeling strategies (e.g., V2 incorporates negative values to model 'spoilage depth'), the evaluation script normalizes all predictions to a unified positive scale.
 
-**Benchmark Ground Truth**:
+#### Benchmark Ground Truth
 To ensure reproducibility, the 120-image benchmark set (covering Apple, Banana, Orange, and Papaya) utilized the following interpretable ground truth labels:
 
 | Fruit   | Unripe (Label 0) | Ripe (Label 1) | Rotten (Label 2) |
