@@ -68,6 +68,8 @@ Works on **any laptop** (Mac, Windows, Linux) immediately.
    ```bash
    curl -F "file=@fruit.jpg" https://alexcj10-ripenet-backend.hf.space/predict
    ```
+<img width="1046" height="104" alt="image" src="https://github.com/user-attachments/assets/7b3485cc-4f49-4240-bc83-63ce82a131a3" />
+<br>
 
 > [!TIP]
 > **Windows Users**: If the `curl` command acts unexpectedly in PowerShell, try using **`curl.exe`** instead.
@@ -279,6 +281,7 @@ The script will automatically execute the identity model, followed by the classi
 Alex (alexcj10)
 
 This system was developed as a case study in applying Deep Learning to solve food waste and quality control challenges in the agricultural sector.
+
 
 
 
