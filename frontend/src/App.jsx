@@ -14,6 +14,7 @@ function App() {
   const [error, setError] = useState(null);
   const [dragOver, setDragOver] = useState(false);
   const [history, setHistory] = useState([]);
+  const isInitialMount = React.useRef(true);
 
   // Helper to convert File/Blob to Base64
   const fileToBase64 = (fileOrBlob) => {
@@ -47,21 +48,33 @@ function App() {
         console.error("Failed to restore last result", e);
       }
     }
+    // Mark loading as complete so we can start saving
+    isInitialMount.current = false;
   }, []);
 
-  // Save history to localStorage
+  // Save history to localStorage (only after initial load)
   React.useEffect(() => {
-    localStorage.setItem('ripenet_history', JSON.stringify(history));
+    if (isInitialMount.current) return;
+    try {
+      localStorage.setItem('ripenet_history', JSON.stringify(history));
+    } catch (e) {
+      console.warn("Storage quota exceeded", e);
+    }
   }, [history]);
 
-  // Persist current result and preview
+  // Persist current result and preview (only after initial load)
   React.useEffect(() => {
-    if (result && preview) {
-      localStorage.setItem('ripenet_last_result', JSON.stringify(result));
-      localStorage.setItem('ripenet_last_preview', preview);
-    } else if (!result && !preview) {
-      localStorage.removeItem('ripenet_last_result');
-      localStorage.removeItem('ripenet_last_preview');
+    if (isInitialMount.current) return;
+    try {
+      if (result && preview) {
+        localStorage.setItem('ripenet_last_result', JSON.stringify(result));
+        localStorage.setItem('ripenet_last_preview', preview);
+      } else if (!result && !preview) {
+        localStorage.removeItem('ripenet_last_result');
+        localStorage.removeItem('ripenet_last_preview');
+      }
+    } catch (e) {
+      console.error("Failed to persist result", e);
     }
   }, [result, preview]);
 
@@ -100,12 +113,12 @@ function App() {
       const newResult = response.data;
       setResult(newResult);
 
-      // Add to history (keep only unique last 10, now with Base64 preview)
-      const b64Preview = preview; // Already Base64 from handleFileChange/Drop
+      // Add to history (simple stack of last 10 scans)
+      const b64Preview = preview;
       setHistory(prev => {
         const entry = { ...newResult, preview: b64Preview, id: Date.now() };
-        const filtered = prev.filter(item => item.fruit !== newResult.fruit || item.ripeness !== newResult.ripeness);
-        return [entry, ...filtered].slice(0, 10);
+        // We just prepend and slice to keep it simple and predictable
+        return [entry, ...prev].slice(0, 10);
       });
     } catch (err) {
       setError('Could not analyze. Please check the backend.');
