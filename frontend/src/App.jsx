@@ -16,6 +16,43 @@ function App() {
   const [history, setHistory] = useState([]);
   const isInitialMount = React.useRef(true);
 
+  // IndexedDB Helper
+  const initDB = () => {
+    return new Promise((resolve, reject) => {
+      const request = indexedDB.open('RipeNetDB', 1);
+      request.onupgradeneeded = (e) => {
+        const db = e.target.result;
+        if (!db.objectStoreNames.contains('history')) {
+          db.createObjectStore('history', { keyPath: 'id' });
+        }
+      };
+      request.onsuccess = (e) => resolve(e.target.result);
+      request.onerror = (e) => reject(e.target.error);
+    });
+  };
+
+  const saveHistoryToDB = async (historyData) => {
+    const db = await initDB();
+    const tx = db.transaction('history', 'readwrite');
+    const store = tx.objectStore('history');
+    await store.clear();
+    historyData.forEach(item => store.add(item));
+  };
+
+  const loadHistoryFromDB = async () => {
+    const db = await initDB();
+    const tx = db.transaction('history', 'readonly');
+    const store = tx.objectStore('history');
+    return new Promise((resolve) => {
+      const request = store.getAll();
+      request.onsuccess = () => {
+        // Sort by id descending to keep newest first
+        const sorted = (request.result || []).sort((a, b) => b.id - a.id);
+        resolve(sorted);
+      };
+    });
+  };
+
   // Helper to convert File/Blob to Base64
   const fileToBase64 = (fileOrBlob) => {
     return new Promise((resolve, reject) => {
@@ -26,28 +63,25 @@ function App() {
     });
   };
 
-  // Load state and history from localStorage on mount
+  // Load history from IndexedDB on mount
   React.useEffect(() => {
-    const savedHistory = localStorage.getItem('ripenet_history');
-    if (savedHistory) {
-      try {
-        setHistory(JSON.parse(savedHistory));
-      } catch (e) {
-        console.error("Failed to load history", e);
+    loadHistoryFromDB().then(savedHistory => {
+      if (savedHistory && savedHistory.length > 0) {
+        setHistory(savedHistory);
       }
-    }
-    // Mark loading as complete so we can start saving
-    isInitialMount.current = false;
+      isInitialMount.current = false;
+    }).catch(err => {
+      console.error("Failed to load history from IndexedDB", err);
+      isInitialMount.current = false;
+    });
   }, []);
 
-  // Save history to localStorage (only after initial load)
+  // Save history to IndexedDB (only after initial load)
   React.useEffect(() => {
     if (isInitialMount.current) return;
-    try {
-      localStorage.setItem('ripenet_history', JSON.stringify(history));
-    } catch (e) {
-      console.warn("Storage quota exceeded", e);
-    }
+    saveHistoryToDB(history).catch(err => {
+      console.error("Failed to save history to IndexedDB", err);
+    });
   }, [history]);
 
   const handleFileChange = async (e) => {
