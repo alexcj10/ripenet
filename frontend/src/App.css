@@ -60,9 +60,19 @@
 }
 
 /* Hero */
+.content-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem 0;
+  width: 100%;
+}
+
 .hero {
   text-align: center;
-  padding: 3rem 1.5rem 2rem;
+  padding: 0 1.5rem 2rem;
 }
 
 .hero h1 {
@@ -91,8 +101,7 @@
 
 /* Main */
 .main {
-  flex: 1;
-  padding: 0 1.5rem 3rem;
+  padding: 0 1.5rem 1rem;
   max-width: 480px;
   margin: 0 auto;
   width: 100%;
@@ -422,7 +431,7 @@
 
 @media (min-width: 768px) {
   .hero {
-    padding: 4rem 2rem 2.5rem;
+    padding: 0 2rem 2.5rem;
   }
 
   .hero h1 {

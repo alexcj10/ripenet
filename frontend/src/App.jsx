@@ -81,137 +81,140 @@ function App() {
         </div>
       </header>
 
-      {/* Hero */}
-      <section className="hero">
-        <h1>Know Your Fruit's <span className="highlight">Freshness</span></h1>
-        <p>Upload a photo and get instant AI analysis of ripeness and shelf-life.</p>
-      </section>
+      {/* Content Wrapper for Vertical Centering */}
+      <div className="content-wrapper">
+        {/* Hero */}
+        <section className="hero">
+          <h1>Know Your Fruit's <span className="highlight">Freshness</span></h1>
+          <p>Upload a photo and get instant AI analysis of ripeness and shelf-life.</p>
+        </section>
 
-      {/* Main Content */}
-      <main className="main">
-        <AnimatePresence mode="wait">
-          {!result ? (
-            <motion.div
-              key="upload"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              className="upload-section"
-            >
-              {!preview ? (
-                <label
-                  className={`dropzone ${dragOver ? 'drag-over' : ''}`}
-                  onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
-                  onDragLeave={() => setDragOver(false)}
-                  onDrop={handleDrop}
-                >
-                  <input type="file" hidden accept="image/*" onChange={handleFileChange} />
-                  <div className="dropzone-content">
-                    <div className="upload-icon-wrap">
-                      <Upload size={32} />
-                    </div>
-                    <p className="dropzone-title">Drop your fruit image here</p>
-                    <p className="dropzone-hint">or click to browse</p>
-                    <div className="format-tags">
-                      <span>JPG</span>
-                      <span>PNG</span>
-                      <span>WEBP</span>
-                    </div>
-                  </div>
-                </label>
-              ) : (
-                <div className="preview-section">
-                  <div className="preview-wrapper">
-                    <img src={preview} alt="Preview" className="preview-image" />
-                    <button className="change-btn" onClick={reset}>
-                      <RotateCcw size={16} /> Change
-                    </button>
-                  </div>
-
-                  <button
-                    className={`analyze-btn ${loading ? 'loading' : ''}`}
-                    onClick={handleUpload}
-                    disabled={loading}
+        {/* Main Content */}
+        <main className="main">
+          <AnimatePresence mode="wait">
+            {!result ? (
+              <motion.div
+                key="upload"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                className="upload-section"
+              >
+                {!preview ? (
+                  <label
+                    className={`dropzone ${dragOver ? 'drag-over' : ''}`}
+                    onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
+                    onDragLeave={() => setDragOver(false)}
+                    onDrop={handleDrop}
                   >
-                    {loading ? (
-                      <>
-                        <span className="spinner"></span>
-                        Analyzing...
-                      </>
-                    ) : (
-                      <>
-                        <Sparkles size={20} />
-                        Analyze Freshness
-                        <ArrowRight size={18} />
-                      </>
-                    )}
-                  </button>
-
-                  {error && (
-                    <div className="error-box">
-                      <AlertCircle size={18} />
-                      {error}
+                    <input type="file" hidden accept="image/*" onChange={handleFileChange} />
+                    <div className="dropzone-content">
+                      <div className="upload-icon-wrap">
+                        <Upload size={32} />
+                      </div>
+                      <p className="dropzone-title">Drop your fruit image here</p>
+                      <p className="dropzone-hint">or click to browse</p>
+                      <div className="format-tags">
+                        <span>JPG</span>
+                        <span>PNG</span>
+                        <span>WEBP</span>
+                      </div>
                     </div>
-                  )}
-                </div>
-              )}
-            </motion.div>
-          ) : (
-            <motion.div
-              key="result"
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0 }}
-              className="result-section"
-            >
-              <div className="result-header">
-                <Check size={24} className="check-icon" />
-                <span>Analysis Complete</span>
-              </div>
+                  </label>
+                ) : (
+                  <div className="preview-section">
+                    <div className="preview-wrapper">
+                      <img src={preview} alt="Preview" className="preview-image" />
+                      <button className="change-btn" onClick={reset}>
+                        <RotateCcw size={16} /> Change
+                      </button>
+                    </div>
 
-              <div className="result-content">
-                <div className="fruit-info">
-                  <div className="fruit-image-wrap">
-                    <img src={preview} alt="Analyzed fruit" className="fruit-image" />
-                  </div>
-                  <div className="fruit-name">{result.fruit}</div>
-                </div>
-
-                <div className="stats-grid">
-                  <div
-                    className="stat-card"
-                    style={{ background: getRipenessStyle(result.ripeness).bg }}
-                  >
-                    <span className="stat-emoji">{getRipenessStyle(result.ripeness).icon}</span>
-                    <span className="stat-label">Ripeness</span>
-                    <span
-                      className="stat-value"
-                      style={{ color: getRipenessStyle(result.ripeness).color }}
+                    <button
+                      className={`analyze-btn ${loading ? 'loading' : ''}`}
+                      onClick={handleUpload}
+                      disabled={loading}
                     >
-                      {result.ripeness}
-                    </span>
-                  </div>
+                      {loading ? (
+                        <>
+                          <span className="spinner"></span>
+                          Analyzing...
+                        </>
+                      ) : (
+                        <>
+                          <Sparkles size={20} />
+                          Analyze Freshness
+                          <ArrowRight size={18} />
+                        </>
+                      )}
+                    </button>
 
-                  <div className="stat-card shelf-life">
-                    <Timer size={28} className="timer-icon" />
-                    <span className="stat-label">Shelf Life</span>
-                    <span className="stat-value">{result.shelf_life_days} days</span>
+                    {error && (
+                      <div className="error-box">
+                        <AlertCircle size={18} />
+                        {error}
+                      </div>
+                    )}
                   </div>
+                )}
+              </motion.div>
+            ) : (
+              <motion.div
+                key="result"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0 }}
+                className="result-section"
+              >
+                <div className="result-header">
+                  <Check size={24} className="check-icon" />
+                  <span>Analysis Complete</span>
                 </div>
 
-                <div className="report-box">
-                  <p>"{result.report}"</p>
-                </div>
+                <div className="result-content">
+                  <div className="fruit-info">
+                    <div className="fruit-image-wrap">
+                      <img src={preview} alt="Analyzed fruit" className="fruit-image" />
+                    </div>
+                    <div className="fruit-name">{result.fruit}</div>
+                  </div>
 
-                <button className="new-btn" onClick={reset}>
-                  <RotateCcw size={18} />
-                  Analyze Another Fruit
-                </button>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </main>
+                  <div className="stats-grid">
+                    <div
+                      className="stat-card"
+                      style={{ background: getRipenessStyle(result.ripeness).bg }}
+                    >
+                      <span className="stat-emoji">{getRipenessStyle(result.ripeness).icon}</span>
+                      <span className="stat-label">Ripeness</span>
+                      <span
+                        className="stat-value"
+                        style={{ color: getRipenessStyle(result.ripeness).color }}
+                      >
+                        {result.ripeness}
+                      </span>
+                    </div>
+
+                    <div className="stat-card shelf-life">
+                      <Timer size={28} className="timer-icon" />
+                      <span className="stat-label">Shelf Life</span>
+                      <span className="stat-value">{result.shelf_life_days} days</span>
+                    </div>
+                  </div>
+
+                  <div className="report-box">
+                    <p>"{result.report}"</p>
+                  </div>
+
+                  <button className="new-btn" onClick={reset}>
+                    <RotateCcw size={18} />
+                    Analyze Another Fruit
+                  </button>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </main>
+      </div>
 
       {/* Footer */}
       <footer className="footer">
