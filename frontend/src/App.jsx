@@ -69,7 +69,7 @@ function App() {
       setHistory(prev => {
         const entry = { ...newResult, preview, id: Date.now() };
         const filtered = prev.filter(item => item.fruit !== newResult.fruit || item.ripeness !== newResult.ripeness);
-        return [entry, ...filtered].slice(0, 5);
+        return [entry, ...filtered].slice(0, 10);
       });
     } catch (err) {
       setError('Could not analyze. Please check the backend.');
