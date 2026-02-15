@@ -108,6 +108,16 @@ The system is deployed using a decoupled architecture:
 
 ---
 
+## Web Application & Local Storage
+
+The RipeNet Web Application is designed for efficiency and privacy, utilizing local browser storage for session persistence.
+
+- **Fruit Vault (History)**: The application automatically stores your last **10 scans** locally in the browser's "Fruit Vault" for quick reference.
+- **Privacy First**: All history data is saved in your browser's `IndexedDB`. No images are stored on our servers after analysis.
+- **Storage Capacity**: Validated for high-resolution images (up to 10MB per scan). The local storage system can comfortably handle over 100MB of historical scan data.
+
+---
+
 ## Key Features
 
 - **Multi-Model Pipeline**: Automated flow from species identification to shelf-life prediction.
