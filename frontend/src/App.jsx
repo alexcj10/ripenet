@@ -13,6 +13,24 @@ function App() {
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
   const [dragOver, setDragOver] = useState(false);
+  const [history, setHistory] = useState([]);
+
+  // Load history from localStorage on mount
+  React.useEffect(() => {
+    const savedHistory = localStorage.getItem('ripenet_history');
+    if (savedHistory) {
+      try {
+        setHistory(JSON.parse(savedHistory));
+      } catch (e) {
+        console.error("Failed to load history", e);
+      }
+    }
+  }, []);
+
+  // Save history to localStorage
+  React.useEffect(() => {
+    localStorage.setItem('ripenet_history', JSON.stringify(history));
+  }, [history]);
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files?.[0];
@@ -44,11 +62,20 @@ function App() {
     formData.append('file', file);
     try {
       const response = await axios.post(`${API_URL}/predict`, formData);
-      setResult(response.data);
+      const newResult = response.data;
+      setResult(newResult);
+
+      // Add to history (keep only unique last 5)
+      setHistory(prev => {
+        const entry = { ...newResult, preview, id: Date.now() };
+        const filtered = prev.filter(item => item.fruit !== newResult.fruit || item.ripeness !== newResult.ripeness);
+        return [entry, ...filtered].slice(0, 5);
+      });
     } catch (err) {
       setError('Could not analyze. Please check the backend.');
     } finally {
-      setLoading(false);
+      // Keep loading true for a bit longer for the "Magic Scan" effect to finish nicely
+      setTimeout(() => setLoading(false), 2000);
     }
   };
 
@@ -125,7 +152,8 @@ function App() {
                   <div className="preview-section">
                     <div className="preview-wrapper">
                       <img src={preview} alt="Preview" className="preview-image" />
-                      <button className="change-btn" onClick={reset}>
+                      {loading && <div className="scanning-laser"></div>}
+                      <button className="change-btn" onClick={reset} disabled={loading}>
                         <RotateCcw size={16} /> Change
                       </button>
                     </div>
@@ -214,6 +242,39 @@ function App() {
             )}
           </AnimatePresence>
         </main>
+
+        {/* Fruit Vault - Recent Scans */}
+        {history.length > 0 && !result && !preview && (
+          <motion.section
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="history-section"
+          >
+            <div className="history-header">
+              <Sparkles size={18} className="history-icon" />
+              <h3>Fruit Vault</h3>
+              <p>Recent AI Scans</p>
+            </div>
+            <div className="history-grid">
+              {history.map((item) => (
+                <div key={item.id} className="history-card" onClick={() => {
+                  setResult(item);
+                  setPreview(item.preview);
+                }}>
+                  <div className="history-thumb">
+                    <img src={item.preview} alt={item.fruit} />
+                  </div>
+                  <div className="history-info">
+                    <span className="history-name">{item.fruit}</span>
+                    <span className="history-status" style={{ color: getRipenessStyle(item.ripeness).color }}>
+                      {item.ripeness}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </motion.section>
+        )}
       </div>
 
       {/* Footer */}
