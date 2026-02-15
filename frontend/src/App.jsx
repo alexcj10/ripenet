@@ -308,8 +308,8 @@ function App() {
             <div className="history-header">
               <Sparkles size={18} className="history-icon" />
               <h3>Fruit Vault</h3>
-              <p>Recent AI Scans</p>
             </div>
+
             <div className="history-grid">
               {history.map((item) => (
                 <div key={item.id} className="history-card" onClick={() => {
