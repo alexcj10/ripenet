@@ -29,23 +29,11 @@ function App() {
   // Load state and history from localStorage on mount
   React.useEffect(() => {
     const savedHistory = localStorage.getItem('ripenet_history');
-    const lastResult = localStorage.getItem('ripenet_last_result');
-    const lastPreview = localStorage.getItem('ripenet_last_preview');
-
     if (savedHistory) {
       try {
         setHistory(JSON.parse(savedHistory));
       } catch (e) {
         console.error("Failed to load history", e);
-      }
-    }
-
-    if (lastResult && lastPreview) {
-      try {
-        setResult(JSON.parse(lastResult));
-        setPreview(lastPreview);
-      } catch (e) {
-        console.error("Failed to restore last result", e);
       }
     }
     // Mark loading as complete so we can start saving
@@ -61,22 +49,6 @@ function App() {
       console.warn("Storage quota exceeded", e);
     }
   }, [history]);
-
-  // Persist current result and preview (only after initial load)
-  React.useEffect(() => {
-    if (isInitialMount.current) return;
-    try {
-      if (result && preview) {
-        localStorage.setItem('ripenet_last_result', JSON.stringify(result));
-        localStorage.setItem('ripenet_last_preview', preview);
-      } else if (!result && !preview) {
-        localStorage.removeItem('ripenet_last_result');
-        localStorage.removeItem('ripenet_last_preview');
-      }
-    } catch (e) {
-      console.error("Failed to persist result", e);
-    }
-  }, [result, preview]);
 
   const handleFileChange = async (e) => {
     const selectedFile = e.target.files?.[0];
