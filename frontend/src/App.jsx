@@ -15,14 +15,36 @@ function App() {
   const [dragOver, setDragOver] = useState(false);
   const [history, setHistory] = useState([]);
 
-  // Load history from localStorage on mount
+  // Helper to convert File/Blob to Base64
+  const fileToBase64 = (fileOrBlob) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(fileOrBlob);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
+  };
+
+  // Load state and history from localStorage on mount
   React.useEffect(() => {
     const savedHistory = localStorage.getItem('ripenet_history');
+    const lastResult = localStorage.getItem('ripenet_last_result');
+    const lastPreview = localStorage.getItem('ripenet_last_preview');
+
     if (savedHistory) {
       try {
         setHistory(JSON.parse(savedHistory));
       } catch (e) {
         console.error("Failed to load history", e);
+      }
+    }
+
+    if (lastResult && lastPreview) {
+      try {
+        setResult(JSON.parse(lastResult));
+        setPreview(lastPreview);
+      } catch (e) {
+        console.error("Failed to restore last result", e);
       }
     }
   }, []);
@@ -32,23 +54,36 @@ function App() {
     localStorage.setItem('ripenet_history', JSON.stringify(history));
   }, [history]);
 
-  const handleFileChange = (e) => {
+  // Persist current result and preview
+  React.useEffect(() => {
+    if (result && preview) {
+      localStorage.setItem('ripenet_last_result', JSON.stringify(result));
+      localStorage.setItem('ripenet_last_preview', preview);
+    } else if (!result && !preview) {
+      localStorage.removeItem('ripenet_last_result');
+      localStorage.removeItem('ripenet_last_preview');
+    }
+  }, [result, preview]);
+
+  const handleFileChange = async (e) => {
     const selectedFile = e.target.files?.[0];
     if (selectedFile) {
       setFile(selectedFile);
-      setPreview(URL.createObjectURL(selectedFile));
+      const b64 = await fileToBase64(selectedFile);
+      setPreview(b64);
       setResult(null);
       setError(null);
     }
   };
 
-  const handleDrop = (e) => {
+  const handleDrop = async (e) => {
     e.preventDefault();
     setDragOver(false);
     const droppedFile = e.dataTransfer.files[0];
     if (droppedFile && droppedFile.type.startsWith('image/')) {
       setFile(droppedFile);
-      setPreview(URL.createObjectURL(droppedFile));
+      const b64 = await fileToBase64(droppedFile);
+      setPreview(b64);
       setResult(null);
       setError(null);
     }
@@ -65,9 +100,10 @@ function App() {
       const newResult = response.data;
       setResult(newResult);
 
-      // Add to history (keep only unique last 5)
+      // Add to history (keep only unique last 10, now with Base64 preview)
+      const b64Preview = preview; // Already Base64 from handleFileChange/Drop
       setHistory(prev => {
-        const entry = { ...newResult, preview, id: Date.now() };
+        const entry = { ...newResult, preview: b64Preview, id: Date.now() };
         const filtered = prev.filter(item => item.fruit !== newResult.fruit || item.ripeness !== newResult.ripeness);
         return [entry, ...filtered].slice(0, 10);
       });
