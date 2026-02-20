@@ -10,10 +10,8 @@
     </linearGradient>
   </defs>
 
-  <!-- Outer group centered horizontally in 420px -->
-  <g transform="translate(210, 60)">
+  <g transform="translate(222, 60)">
 
-    <!-- Apple Logo centered: apple is ~80px wide, offset left -->
     <g transform="translate(-145, -50) scale(0.9)">
       <path
         d="M50 20 C20 20 10 50 10 65 C10 90 30 95 50 95
@@ -34,7 +32,6 @@
       />
     </g>
 
-    <!-- RipeNet text, centered from middle -->
     <text
       x="30"
       y="0"
