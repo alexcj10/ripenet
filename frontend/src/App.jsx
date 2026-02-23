@@ -16,6 +16,15 @@ function App() {
   const [history, setHistory] = useState([]);
   const isInitialMount = React.useRef(true);
 
+  const supportedFruits = [
+    { name: 'Apple', icon: '🍎' },
+    { name: 'Banana', icon: '🍌' },
+    { name: 'Mango', icon: '🥭' },
+    { name: 'Orange', icon: '🍊' },
+    { name: 'Papaya', icon: '🍈' },
+    { name: 'Pineapple', icon: '🍍' }
+  ];
+
   // IndexedDB Helper
   const initDB = () => {
     return new Promise((resolve, reject) => {
@@ -169,6 +178,18 @@ function App() {
         <section className="hero">
           <h1>Know Your Fruit's <span className="highlight">Freshness</span></h1>
           <p>Upload a photo and get instant AI analysis of ripeness and shelf-life.</p>
+
+          <div className="supported-fruits">
+            <span className="supported-label">Supporting:</span>
+            <div className="fruit-chips">
+              {supportedFruits.map(fruit => (
+                <span key={fruit.name} className="fruit-chip">
+                  <span className="chip-icon">{fruit.icon}</span>
+                  {fruit.name}
+                </span>
+              ))}
+            </div>
+          </div>
         </section>
 
         {/* Main Content */}
