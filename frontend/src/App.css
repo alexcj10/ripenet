@@ -671,6 +671,41 @@
   .main {
     padding: 0 1rem;
   }
+  
+  .dropzone {
+    padding: 1.5rem 1rem;
+  }
+  
+  .upload-icon-wrap {
+    width: 56px;
+    height: 56px;
+    margin-bottom: 1rem;
+  }
+  
+  .dropzone-title {
+    font-size: 1rem;
+  }
+  
+  .format-tags span {
+    padding: 0.2rem 0.5rem;
+    font-size: 0.7rem;
+  }
+  
+  .preview-image {
+    height: 220px;
+  }
+  
+  .change-btn {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.75rem;
+    top: 0.5rem;
+    right: 0.5rem;
+  }
+  
+  .analyze-btn {
+    padding: 0.75rem;
+    font-size: 0.95rem;
+  }
 
   .stats-grid {
     gap: 0.5rem;
@@ -698,8 +733,18 @@
     font-size: 1.25rem;
   }
   
+  .result-header {
+    padding: 0.75rem;
+    font-size: 0.95rem;
+  }
+  
   .result-content {
     padding: 1rem;
+  }
+  
+  .new-btn {
+    padding: 0.75rem;
+    font-size: 0.95rem;
   }
 }
 
