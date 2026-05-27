@@ -449,6 +449,7 @@
   font-weight: 500;
   color: var(--text-dark);
   transition: all 0.2s;
+  white-space: nowrap;
 }
 
 .new-btn:hover {
