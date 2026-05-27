@@ -622,3 +622,93 @@
     height: 320px;
   }
 }
+
+/* Fixes for very thin / small screens */
+@media (max-width: 400px) {
+  .header {
+    padding: 1rem 0.75rem;
+  }
+  
+  .logo-text {
+    font-size: 1.15rem;
+  }
+
+  .logo-icon {
+    width: 28px;
+    height: 28px;
+  }
+
+  .badge {
+    padding: 0.25rem 0.6rem;
+    font-size: 0.7rem;
+  }
+
+  .header-right {
+    gap: 0.5rem;
+  }
+
+  .hero {
+    padding: 0 1rem 1.5rem;
+  }
+
+  .hero h1 {
+    font-size: 1.75rem;
+  }
+
+  .hero p {
+    font-size: 0.9rem;
+  }
+
+  .fruit-chip {
+    padding: 0.35rem 0.6rem;
+    font-size: 0.75rem;
+  }
+
+  .fruit-chips {
+    gap: 0.4rem;
+  }
+
+  .main {
+    padding: 0 1rem;
+  }
+
+  .stats-grid {
+    gap: 0.5rem;
+  }
+
+  .stat-card {
+    padding: 1rem 0.5rem;
+  }
+
+  .stat-emoji {
+    font-size: 1.5rem;
+  }
+
+  .stat-value {
+    font-size: 1.1rem;
+  }
+  
+  .fruit-image-wrap {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 0.5rem;
+  }
+  
+  .fruit-name {
+    font-size: 1.25rem;
+  }
+  
+  .result-content {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 320px) {
+  .logo-text {
+    display: none;
+  }
+  
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+}
