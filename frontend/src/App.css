@@ -96,7 +96,7 @@
 
 .hero p {
   color: var(--text-light);
-  font-size: 1rem;
+  font-size: 1.1rem;
   max-width: 360px;
   margin: 0 auto 1.5rem;
 }
@@ -601,7 +601,7 @@
   }
 
   .hero p {
-    font-size: 1.1rem;
+    font-size: 1.25rem;
     max-width: 420px;
   }
 
@@ -657,7 +657,7 @@
   }
 
   .hero p {
-    font-size: 0.9rem;
+    font-size: 1rem;
   }
 
   .fruit-chip {
