@@ -143,10 +143,19 @@ The complete RipeNet v2.0 image dataset and labels (required for training and ev
 │   ├── Dockerfile          # Container configuration
 │   └── requirements.txt    # CPU-optimized dependencies
 │
+├── data/                   # Dataset Directory (Ignored in Git, hosted on Kaggle)
+│   ├── raw/                # Image folders (train, train_selected, RipeNet 2.0)
+│   └── labels/             # CSV ground truth files
+│
 ├── frontend/               # React Web Application (Vercel)
 │   ├── src/                # UI components and API logic
 │   ├── App.jsx             # Main application flow
 │   └── App.css             # Premium styling and glassmorphism
+│
+├── ml/                     # Modular Machine Learning Code
+│   ├── core/               # Training and logic for Multi-Task Model (V2)
+│   ├── identity/           # Training and logic for Identity Model
+│   └── regression/         # Training and logic for Regression Model
 │
 ├── reports/                # Benchmarking and evaluation reports
 │   ├── metrics/            # CSV summaries and validation data
@@ -159,12 +168,12 @@ The complete RipeNet v2.0 image dataset and labels (required for training and ev
 │   ├── best_regression_model.pth  # Shelf-life regression model (V1)
 │   └── ripenet_v2_mtl.pth         # Multi-Task Learning model (V2 Production)
 │
-├── src/                    # Training and logic for Classification
-├── src_identity/           # Training and logic for Identity
-├── src_regression/         # Training and logic for Regression
+├── scripts/                # Utility scripts for data preparation
+│   ├── prepare_ripenet_v2.py   # Dataset preparation for V2
+│   ├── verify_v2_pipeline.py   # Validation script for MTL architecture
+│   └── ...                     # Other data manipulation scripts
+│
 ├── ripenet_cli.py          # Entry point for the Premium CLI
-├── prepare_ripenet_v2.py   # Dataset preparation for V2
-├── verify_v2_pipeline.py   # Validation script for MTL architecture
 ├── .gitignore              # Project-wide git ignore rules
 └── requirements.txt        # Local environment dependencies
 ```
