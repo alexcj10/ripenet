@@ -45,3 +45,6 @@ frontend/dist/
 
 # Large Model Files (Optional: If you use Git LFS, keep these. If not, they will be pushed)
 # saved_models/*.pth
+
+# Large Datasets (Hosted on Kaggle)
+data/

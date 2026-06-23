@@ -10,9 +10,9 @@ import torch.nn as nn
 
 # Local imports
 import sys
-# Ensure we can import from src directory if needed
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "src")))
-from multi_task_model import RipeNetMTL
+# Ensure we can import from the root directory so ml module is found
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+from ml.core.multi_task_model import RipeNetMTL
 
 app = FastAPI(title="RipeNet API", description="AI-powered fruit ripeness detection (Multi-Task V2)")
 
