@@ -127,6 +127,13 @@ The RipeNet Web Application is designed for efficiency and privacy, utilizing lo
 
 ---
 
+## Dataset
+
+The complete RipeNet v2.0 image dataset and labels (required for training and evaluation) can be downloaded from Kaggle:
+[RipeNet 2.0 Fruit Dataset](https://www.kaggle.com/datasets/alexcj10/ripenet-2-0-fruit-dataset)
+
+---
+
 ## Project Structure
 
 ```
